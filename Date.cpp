@@ -75,14 +75,14 @@ string Date::whatDay() {
 	день недели = (день + код месяца + код года) % 7
 
 	код месяца:
-	Обычные годы			Високосные			m
-	Апрель июль				Январь апрель июль	0
-	Январь октябрь			Октябрь				1
-	Май											2
-	Август					Февраль август		3
-	Февраль март ноябрь		Март ноябрь			4
-	Июнь										5
-	Сентябрь декабрь							6
+	Обычные годы		Високосные		m
+	Апрель июль		Январь апрель июль	0
+	Январь октябрь		Октябрь			1
+	Май						2
+	Август			Февраль август		3
+	Февраль март ноябрь	Март ноябрь		4
+	Июнь						5
+	Сентябрь декабрь				6
 
 	код года = (6 + последние две цифры года + последние две цифры года / 4) % 7
 
@@ -96,7 +96,6 @@ string Date::whatDay() {
 		for (int i = 0; i < 7; i++) {
 			vector<int>::iterator it;
 			it = find(months_Leap[i].begin(), months_Leap[i].end(), *month);
-			// Если не нашёл, std::find возвращает конец range
 			if (it != months_Leap[i].end()) {
 				code_month = i;
 				break;
@@ -137,7 +136,7 @@ string Date::whatDay() {
 
 string Date::whatDay(int day, int month) {
 	vector < vector <int> > months_nonLeap = { {4, 7}, {1, 10}, {5}, {8}, {2, 3, 11}, {6}, {9, 12} };
-	vector < vector <int> > months_Leap = { {1, 4, 7}, {10}, {5}, {2, 8}, {3, 11}, {6}, {9, 12} };
+	vector < vector <int> > months_Leap = 	 { {1, 4, 7}, {10}, {5}, {2, 8}, {3, 11}, {6}, {9, 12} };
 
 
 	int code_month = -1;
@@ -220,7 +219,7 @@ string Date::timeInterval(int second_day, int second_month, int second_year, int
 			day_difference = first - second;
 		}
 
-		
+		//запуталась с секундами, может неверно считать
 
 		if (hours_difference >= 24) {
 			day_difference++;
