@@ -1,19 +1,24 @@
 #include "Date.h"
+
 bool Date::isLeap(int year)
 {
 	return (year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0));
 };
 
-Date::Date(int _day, int _month, int _year) {
+Date::Date(int _day, int _month, int _year, int _hours, int _minutes) {
 	day = &_day;
 	month = &_month;
 	year = &_year;
+	hours = &_hours;
+	minutes = &_minutes;
 };
 
 Date::~Date() {
 	delete day;
 	delete month;
 	delete year;
+	delete hours;
+	delete minutes;
 }
 
 bool Date::isCorrect() {
@@ -21,22 +26,23 @@ bool Date::isCorrect() {
 	int has30days[4] = { 4,6,9,11 };
 	if (*year <= current_year && *year >= 0) {
 		if (*month == 2) {
-			if (isLeap(*year) && (*day >= 1 && *day <= 29)) return true;
-			else if (*day >= 1 && *day <= 28) return true;
+			if (isLeap(*year) && (*day >= 1 && *day <= 29) && isCorrectTime(*hours,*minutes)) return true;
+			else if (*day >= 1 && *day <= 28 && isCorrectTime(*hours, *minutes)) return true;
 			else return false;
 		}
 		else {
 			int* mon = find(begin(has31days), end(has31days), *month);
 			if (mon != end(has31days)) {
-				if (*day >= 1 && *day <= 31) return true;
+				if (*day >= 1 && *day <= 31 && isCorrectTime(*hours, *minutes)) return true;
 				else return false;
 			}
-			else if (*day >= 1 && *day <= 30) return true;
+			else if (*day >= 1 && *day <= 30 && isCorrectTime(*hours, *minutes)) return true;
 			else return false;
 		}
 	}
 	else return false;
 }
+
 bool Date::isCorrect(int d, int m){
 	int has31days[7] = { 1,3,5,7,8,10,12 };
 	int has30days[4] = { 4,6,9,11 };
@@ -55,6 +61,11 @@ bool Date::isCorrect(int d, int m){
 		else return false;
 	}
 
+}
+
+bool Date::isCorrectTime(int hour, int minutes){
+	if ((hour >= 0 && hour <= 23) && (minutes >= 0 && minutes <= 59)) return true;
+	else return false;
 };
 
 string Date::whatDay() {
@@ -63,13 +74,13 @@ string Date::whatDay() {
 
 	код месяца:
 	Обычные годы			Високосные			m
-	Апрель июль			Январь апрель июль		0
+	Апрель июль				Январь апрель июль	0
 	Январь октябрь			Октябрь				1
-	Май								2
-	Август				Февраль август			3
+	Май											2
+	Август					Февраль август		3
 	Февраль март ноябрь		Март ноябрь			4
-	Июнь								5
-	Сентябрь декабрь						6
+	Июнь										5
+	Сентябрь декабрь							6
 
 	код года = (6 + последние две цифры года + последние две цифры года / 4) % 7
 
@@ -83,6 +94,7 @@ string Date::whatDay() {
 		for (int i = 0; i < 7; i++) {
 			vector<int>::iterator it;
 			it = find(months_Leap[i].begin(), months_Leap[i].end(), *month);
+			// Если не нашёл, std::find возвращает конец range
 			if (it != months_Leap[i].end()) {
 				code_month = i;
 				break;
@@ -175,6 +187,39 @@ int Date::JDN(int day, int month, int year) {
 	int m = month + 12 * a - 3;
 
 	return day + ((153 * m + 2) / 5) + 365 * y + y / 4 - y / 100 + y / 400 - 32045;
+}
+string Date::timeInterval(int second_day, int second_month, int second_year, int second_hours, int second_minutes){
+	if (isCorrectTime(second_hours, second_minutes) && isCorrect(second_day, second_month)) {
+		int hours_difference = second_hours - *hours;
+		int minutes_difference = second_minutes - *minutes;
+
+		long first = JDN(*day, *month, *year);
+		long second = JDN(second_day, second_month, second_year);
+
+		int day_difference = second - first;
+		if (day_difference < 0) {
+			day_difference = first - second;
+		}
+
+		if (minutes_difference < 0) {
+			hours_difference--;
+			minutes_difference = *minutes - second_minutes;
+		}
+
+		if (hours_difference < 0) {
+			day_difference--;
+			hours_difference = 24 + hours_difference;
+		}
+
+		if (hours_difference >= 24) {
+			day_difference++;
+			hours_difference -= 24;
+		}
+
+		return to_string(day_difference) + " дней, " + to_string(hours_difference) + " часов и " + to_string(minutes_difference) + " минут. ";
+
+	}
+	else throw DateException{};
 };
 
 int Date::interval(int second_day, int second_month, int second_year){
@@ -187,6 +232,7 @@ int Date::interval(int second_day, int second_month, int second_year){
 	if (second - first < 0) return first - second;
 	else return second - first;
 }
+
 int Date::interval(int second_day, int second_month) {
 	if (!isCorrect(second_day, second_month)) {
 		cout << "ЧТО-ТО НЕ ТАК С ДАТОЙ";
@@ -196,6 +242,7 @@ int Date::interval(int second_day, int second_month) {
 	long second = JDN(second_day, second_month, current_year);
 	return second - first;
 }
+
 void Date::longDate() {
 	int m = *month;
 	string zero = "";
@@ -207,6 +254,7 @@ void Date::longDate() {
 	if (number_of_digits == 1) zero = "0";
 	cout << *day << "." << zero << *month << "." << *year << endl;
 };
+
 void Date::shortDate(){
 	string m = "0" + to_string(*month);
 	string d = "0" + to_string(*day);
@@ -216,8 +264,8 @@ void Date::shortDate(){
 	if (size(y) > 3) y.erase(0, 2);
 	cout << d << "." << m << "." << y << endl;
 };
+
 void Date::stringDate() {
 	string months[12] = { " января ", " февраля ", " марта ", " апреля ", " мая ", " июня ", " июля ", " августа ", " сентября ", " октября ", " ноября ", " декабря " };
 	cout << *day << months[*month - 1] << *year << endl;
 };
-
