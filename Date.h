@@ -18,24 +18,24 @@ public:
 
 	~Date();
 
-	bool isCorrect(); // Проверяет корректность даты
+	bool isCorrect(); // РџСЂРѕРІРµСЂСЏРµС‚ РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ РґР°С‚С‹
 	bool isCorrect(int d, int m);
 
-	string whatDay(); // Вычисляет день недели для заданной даты
+	string whatDay(); // Р’С‹С‡РёСЃР»СЏРµС‚ РґРµРЅСЊ РЅРµРґРµР»Рё РґР»СЏ Р·Р°РґР°РЅРЅРѕР№ РґР°С‚С‹
 	string whatDay(int day, int month);
 
-	int interval(int second_day, int second_month, int second_year); // Количество дней между датами
+	int interval(int second_day, int second_month, int second_year); // РљРѕР»РёС‡РµСЃС‚РІРѕ РґРЅРµР№ РјРµР¶РґСѓ РґР°С‚Р°РјРё
 	int interval(int second_day, int second_month);
 
-	void longDate(); // Выводит в формате 1.01.2001
+	void longDate(); // Р’С‹РІРѕРґРёС‚ РІ С„РѕСЂРјР°С‚Рµ 1.01.2001
 
 	void shortDate(); // 01.01.01
 
-	void stringDate(); // 1 января 2001
+	void stringDate();  // 1 СЏРЅРІР°СЂСЏ 2001
 
-	bool isLeap(int year); // Проверяет на високосность
+	bool isLeap(int year); // // РџСЂРѕРІРµСЂСЏРµС‚ РЅР° РІРёСЃРѕРєРѕСЃРЅРѕСЃС‚СЊ
 
-	int JDN(int day, int month, int year); // Вычисление номера юлианского дня по дате григорианского календаря
+	int JDN(int day, int month, int year); // Р’С‹С‡РёСЃР»РµРЅРёРµ РЅРѕРјРµСЂР° СЋР»РёР°РЅСЃРєРѕРіРѕ РґРЅСЏ РїРѕ РґР°С‚Рµ РіСЂРёРіРѕСЂРёР°РЅСЃРєРѕРіРѕ РєР°Р»РµРЅРґР°СЂСЏ
 };
 
 class DateException {};
