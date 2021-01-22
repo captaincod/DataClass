@@ -59,19 +59,19 @@ bool Date::isCorrect(int d, int m){
 
 string Date::whatDay() {
 	/*
-	день недели = (день + код месяца + код года) % 7
+	РґРµРЅСЊ РЅРµРґРµР»Рё = (РґРµРЅСЊ + РєРѕРґ РјРµСЃСЏС†Р° + РєРѕРґ РіРѕРґР°) % 7
 
-	код месяца:
-	Обычные годы			Високосные			m
-	Апрель июль				Январь апрель июль	0
-	Январь октябрь			Октябрь				1
-	Май											2
-	Август					Февраль август		3
-	Февраль март ноябрь		Март ноябрь			4
-	Июнь										5
-	Сентябрь декабрь							6
+	РєРѕРґ РјРµСЃСЏС†Р°:
+	РћР±С‹С‡РЅС‹Рµ РіРѕРґС‹			Р’РёСЃРѕРєРѕСЃРЅС‹Рµ			m
+	РђРїСЂРµР»СЊ РёСЋР»СЊ				РЇРЅРІР°СЂСЊ Р°РїСЂРµР»СЊ РёСЋР»СЊ	0
+	РЇРЅРІР°СЂСЊ РѕРєС‚СЏР±СЂСЊ			РћРєС‚СЏР±СЂСЊ				1
+	РњР°Р№											2
+	РђРІРіСѓСЃС‚					Р¤РµРІСЂР°Р»СЊ Р°РІРіСѓСЃС‚		3
+	Р¤РµРІСЂР°Р»СЊ РјР°СЂС‚ РЅРѕСЏР±СЂСЊ		РњР°СЂС‚ РЅРѕСЏР±СЂСЊ			4
+	РСЋРЅСЊ										5
+	РЎРµРЅС‚СЏР±СЂСЊ РґРµРєР°Р±СЂСЊ							6
 
-	код года = (6 + последние две цифры года + последние две цифры года / 4) % 7
+	РєРѕРґ РіРѕРґР° = (6 + РїРѕСЃР»РµРґРЅРёРµ РґРІРµ С†РёС„СЂС‹ РіРѕРґР° + РїРѕСЃР»РµРґРЅРёРµ РґРІРµ С†РёС„СЂС‹ РіРѕРґР° / 4) % 7
 
 	*/
 	vector < vector <int> > months_nonLeap = { {4, 7}, {1, 10}, {5}, {8}, {2, 3, 11}, {6}, {9, 12} };
@@ -83,7 +83,6 @@ string Date::whatDay() {
 		for (int i = 0; i < 7; i++) {
 			vector<int>::iterator it;
 			it = find(months_Leap[i].begin(), months_Leap[i].end(), *month);
-			// Если не нашёл, std::find возвращает конец range
 			if (it != months_Leap[i].end()) {
 				code_month = i;
 				break;
@@ -106,19 +105,19 @@ string Date::whatDay() {
 
 	switch (day_of_week) {
 	case 0:
-		return "Суббота";  break;
+		return "РЎСѓР±Р±РѕС‚Р°";  break;
 	case 1:
-		return "Воскресенье"; break;
+		return "Р’РѕСЃРєСЂРµСЃРµРЅСЊРµ"; break;
 	case 2:
-		return "Понедельник"; break;
+		return "РџРѕРЅРµРґРµР»СЊРЅРёРє"; break;
 	case 3:
-		return "Вторник"; break;
+		return "Р’С‚РѕСЂРЅРёРє"; break;
 	case 4:
-		return "Среда"; break;
+		return "РЎСЂРµРґР°"; break;
 	case 5:
-		return "Четверг";  break;
+		return "Р§РµС‚РІРµСЂРі";  break;
 	case 6:
-		return "Пятница"; break;
+		return "РџСЏС‚РЅРёС†Р°"; break;
 	}
 }
 
@@ -154,19 +153,19 @@ string Date::whatDay(int day, int month) {
 
 	switch (day_of_week) {
 	case 0:
-		return "Суббота";  break;
+		return "РЎСѓР±Р±РѕС‚Р°";  break;
 	case 1:
-		return "Воскресенье"; break;
+		return "Р’РѕСЃРєСЂРµСЃРµРЅСЊРµ"; break;
 	case 2:
-		return "Понедельник"; break;
+		return "РџРѕРЅРµРґРµР»СЊРЅРёРє"; break;
 	case 3:
-		return "Вторник"; break;
+		return "Р’С‚РѕСЂРЅРёРє"; break;
 	case 4:
-		return "Среда"; break;
+		return "РЎСЂРµРґР°"; break;
 	case 5:
-		return "Четверг";  break;
+		return "Р§РµС‚РІРµСЂРі";  break;
 	case 6:
-		return "Пятница"; break;
+		return "РџСЏС‚РЅРёС†Р°"; break;
 	}
 }
 
@@ -180,7 +179,7 @@ int Date::JDN(int day, int month, int year) {
 
 int Date::interval(int second_day, int second_month, int second_year){
 	if (!isCorrect(second_day, second_month)) {
-		cout << "ЧТО-ТО НЕ ТАК С ДАТОЙ";
+		cout << "Р§РўРћ-РўРћ РќР• РўРђРљ РЎ Р”РђРўРћР™";
 		throw DateException{};
 	}
 	long first = JDN(*day, *month, *year);
@@ -190,7 +189,7 @@ int Date::interval(int second_day, int second_month, int second_year){
 }
 int Date::interval(int second_day, int second_month) {
 	if (!isCorrect(second_day, second_month)) {
-		cout << "ЧТО-ТО НЕ ТАК С ДАТОЙ";
+		cout << "Р§РўРћ-РўРћ РќР• РўРђРљ РЎ Р”РђРўРћР™";
 		throw DateException{};
 	}
 	long first = JDN(*day, *month, *year);
@@ -218,7 +217,7 @@ void Date::shortDate(){
 	cout << d << "." << m << "." << y << endl;
 };
 void Date::stringDate() {
-	string months[12] = { " января ", " февраля ", " марта ", " апреля ", " мая ", " июня ", " июля ", " августа ", " сентября ", " октября ", " ноября ", " декабря " };
+	string months[12] = { " СЏРЅРІР°СЂСЏ ", " С„РµРІСЂР°Р»СЏ ", " РјР°СЂС‚Р° ", " Р°РїСЂРµР»СЏ ", " РјР°СЏ ", " РёСЋРЅСЏ ", " РёСЋР»СЏ ", " Р°РІРіСѓСЃС‚Р° ", " СЃРµРЅС‚СЏР±СЂСЏ ", " РѕРєС‚СЏР±СЂСЏ ", " РЅРѕСЏР±СЂСЏ ", " РґРµРєР°Р±СЂСЏ " };
 	cout << *day << months[*month - 1] << *year << endl;
 };
 
