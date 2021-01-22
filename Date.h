@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include <ctime>
 #include <string>
 
 using namespace std;
@@ -14,15 +13,16 @@ class Date {
 	int* year;
 	int* hours;
 	int* minutes;
+	int* seconds;
 public:
 
-	Date(int _day, int _month, int _year = current_year, int _hours = 0, int _minutes = 0);
+	Date(int _day, int _month, int _year = current_year, int _hours = 0, int _minutes = 0, int _seconds = 0);
 
 	~Date();
 
 	bool isCorrect(); // Проверяет корректность даты
 	bool isCorrect(int d, int m);
-	bool isCorrectTime(int hour, int minutes);
+	bool isCorrectTime(int hour, int minutes, int seconds);
 
 	string whatDay(); // Вычисляет день недели для заданной даты
 	string whatDay(int day, int month);
@@ -30,7 +30,7 @@ public:
 	int interval(int second_day, int second_month, int second_year); // Количество дней между датами
 	int interval(int second_day, int second_month);
 
-	string timeInterval(int second_day, int second_month, int second_year = current_year, int second_hours = 0, int second_minutes = 0);
+	string timeInterval(int second_day, int second_month, int second_year = current_year, int second_hours = 0, int second_minutes = 0, int second_seconds = 0);
 
 	void longDate(); // Выводит в формате 1.01.2001
 
